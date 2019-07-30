@@ -1,0 +1,46 @@
+{% if GIT_DESCRIBE_NUMBER > '0' %}
+{% set GIT_VERSION = GIT_DESCRIBE_TAG[1:] + '.post' + GIT_DESCRIBE_NUMBER %}
+{% else %}
+{% set GIT_VERSION = GIT_DESCRIBE_TAG[1:] %}
+{% endif %}
+# source will be downloaded prior to filling in jinja templates
+# Example assumes that this folder has setup.py in it
+source:
+  git_url: ../
+
+package:
+  name: microdrop.dropbot-signals-plugin
+  version: {{ GIT_VERSION }}
+
+build:
+  number: 0
+  script: python -m mpm.bin.build
+
+requirements:
+  host:
+    - flatland-fork
+    - microdrop >=2.35
+    - microdrop-plugin-manager >=0.24
+    - path_helpers >=0.2.post4
+    - wheeler.pygtkhelpers >=0.18
+
+  run:
+    - flatland-fork
+    - microdrop >=2.35
+    - microdrop-plugin-manager >=0.24
+    - path_helpers >=0.2.post4
+    - wheeler.pygtkhelpers >=0.18
+
+test:
+  commands:
+    - python -m mpm.bin.import_test -a {{ PKG_NAME }}
+
+about:
+  home: https://github.com/sci-bots/microdrop.user-prompt-plugin
+  license: BSD-3-Clause
+  license_family: BSD
+  license_file: LICENSE.md
+
+extra:
+  recipe-maintainers:
+    - cfobel
