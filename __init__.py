@@ -30,6 +30,10 @@ class DropBotSignalsPlugin(Plugin):
     def name(self):
         return self.plugin_name
 
+    @name.setter
+    def name(self, value):
+        pass
+
     @asyncio.coroutine
     def on_step_run(self, plugin_kwargs, signals):
         '''
@@ -148,6 +152,3 @@ class DropBotSignalsPlugin(Plugin):
 
 
 PluginGlobals.pop_env()
-
-"""
-"""
