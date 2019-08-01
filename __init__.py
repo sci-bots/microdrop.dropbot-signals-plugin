@@ -122,10 +122,6 @@ class DropBotSignalsPlugin(Plugin):
         @asyncio.coroutine
         def _on_dropbot_disconnected(sender, **message):
             _L().debug('DropBot connection lost.')
-            # Clear event indicating DropBot has been disconnected.
-            self.dropbot_connected.clear()
-            self.control_board = None
-            self.dropbot_status.on_disconnected()
 
         # Call capacitance update callback _at most_ every 2 seconds.
         debounced_capacitance_update = \
