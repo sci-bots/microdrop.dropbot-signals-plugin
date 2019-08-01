@@ -20,14 +20,14 @@ requirements:
   host:
     - flatland-fork
     - microdrop >=2.35
-    - microdrop-plugin-manager >=0.24
+    - microdrop-plugin-manager >=0.26.0
     - path_helpers >=0.2.post4
     - wheeler.pygtkhelpers >=0.18
 
   run:
     - flatland-fork
     - microdrop >=2.35
-    - microdrop-plugin-manager >=0.24
+    - microdrop-plugin-manager >=0.26.0
     - path_helpers >=0.2.post4
     - wheeler.pygtkhelpers >=0.18
 
@@ -36,7 +36,7 @@ test:
     - python -m mpm.bin.import_test -a {{ PKG_NAME }}
 
 about:
-  home: https://github.com/sci-bots/microdrop.user-prompt-plugin
+  home: https://github.com/sci-bots/microdrop.dropbot-signals-plugin
   license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE.md
