@@ -68,13 +68,6 @@ class DropBotSignalsPlugin(Plugin):
             _L().debug('DropBot plugin not found.')
             raise asyncio.Return()
 
-        def _on_capacitance_updated(sender, **message):
-            # New capacitance reading was received from the DropBot via a
-            # `'capacitance-updated'` signal is emitted from the DropBot.
-            _L().debug('DropBot capacitance reading received: %sF @ %sV',
-                       si.si_format(message['new_value']),
-                       si.si_format(message['V_a']))
-
         @asyncio.coroutine
         def _on_channels_updated(sender, **message):
             '''
@@ -123,7 +116,19 @@ class DropBotSignalsPlugin(Plugin):
         def _on_dropbot_disconnected(sender, **message):
             _L().debug('DropBot connection lost.')
 
-        # Call capacitance update callback _at most_ every 2 seconds.
+        # Capacitance update messages may arrive as fast as every ~10 ms
+        # (depending on the configuration of the DropBot plugin).
+        #
+        # To avoid a logging backlog due to too many messages, Limit the
+        # capacitance update callback frequency to _at most_ every 2 seconds
+        # using a `debounce.Debounce()` wrapper coroutine.
+        def _on_capacitance_updated(sender, **message):
+            # New capacitance reading was received from the DropBot via a
+            # `'capacitance-updated'` signal is emitted from the DropBot.
+            _L().debug('DropBot capacitance reading received: %sF @ %sV',
+                       si.si_format(message['new_value']),
+                       si.si_format(message['V_a']))
+
         debounced_capacitance_update = \
             asyncio.coroutine(Debounce(_on_capacitance_updated, 1000,
                                        max_wait=2000, leading=True))
